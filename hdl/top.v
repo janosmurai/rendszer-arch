@@ -23,18 +23,28 @@ module top(
 	input clk
     );
 
+wire wb_m2s_dat;
+wire wb_m2s_adr;
+wire wb_m2s_we;
+wire wb_m2s_sel;
+wire wb_m2s_stb;
+wire wb_m2s_cyc;
+
+wire wb_s2m_dat;
+wire wb_s2m_ack;
+
 wishbone_master wb_m(
 	.rst_i(rst),
 	.clk_i(clk),
-	.dat_i(),
-	.ack_i(),
+	.dat_i(wb_s2m_dat),
+	.ack_i(wb_s2m_ack),
 	
-	.adr_o(),
-	.dat_o(),
-	.we_o(),
-	.sel_o(),
-	.stb_o(),
-	.cyc_o()
+	.adr_o(wb_m2s_adr),
+	.dat_o(wb_m2s_dat),
+	.we_o(wb_m2s_we),
+	.sel_o(wb_m2s_sel),
+	.stb_o(wb_m2s_stb),
+	.cyc_o(wb_m2s_cyc)
 );
 
 
@@ -42,15 +52,15 @@ wishbone_slave wb_s(
 
 	.rst_i(rst),
 	.clk_i(clk),
-	.dat_i(),
-	.adr_i(),
-	.we_i(),
-	.sel_i(),
-	.stb_i(),
-	.cyc_i(),
+	.dat_i(wb_m2s_adr),
+	.adr_i(wb_m2s_dat),
+	.we_i(wb_m2s_we),
+	.sel_i(wb_m2s_sel),
+	.stb_i(wb_m2s_stb),
+	.cyc_i(wb_m2s_cyc),
 	
-	.dat_o(),
-	.ack_o()   
+	.dat_o(wb_s2m_dat),
+	.ack_o(wb_s2m_ack)   
 );
 	
 

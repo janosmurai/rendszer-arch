@@ -19,6 +19,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module wishbone_master(
+	//wb signals
 	input rst_i,
 	input clk_i,
 	input [31:0] dat_i,
@@ -29,8 +30,33 @@ module wishbone_master(
 	output we_o,
 	output sel_o,
 	output stb_o,
-	output cyc_o
+	output cyc_o,
+	
+	//master controlling signals
+	input [31:0] control_dat,
+	input [31:0] control_adr,
+	input dat_rdy
     );
 
+always @(posedge clk)
+begin
+	if(rst_i || ack_i)
+	begin
+		adr_o <= 0;
+		dat_o <= 0;
+		we_o <= 0;
+		sel_o <= 0;
+		sys_o <= 0;
+	end
+	else if(dat_rdy)
+	begin
+		adr_o <= control_adr;
+		dat_o <= control_dat;
+		we_o <= 1;					//write
+		sel_o <= 1;
+		cyc_o <= 1;
+	end
+end
+		
 
 endmodule
