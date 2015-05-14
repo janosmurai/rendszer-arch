@@ -71,6 +71,8 @@ module tb_top_in;
 		rst = 0;
 		control_adr = 32'h1000_0000;
 		we = 1;
+		set_addressLength = 1;
+		dat_rdy = 1;
 
 	end
 	
@@ -82,33 +84,42 @@ module tb_top_in;
 	reg old_scl;
 	reg frame_start;
 	reg we_feedback;
+	reg ack_feedback;
+	reg sda_reg;
 	
 	always @(posedge clk)
 	begin
 		if(rst) check_addr <= 0;
-		else if(((sda == 0) && (old_sda == 1)) && ((scl == 0) && (old_scl == 1))) frame_start <= 1;
+		else if(((sda == 0) && (old_sda == 1)) && ((scl == 0) && (old_scl == 1))) 
+		begin
+			frame_start <= 1;
+		end
 		else frame_start <= 0;
 	end
 	
-	reg [4:0] bit_cntr;
-	reg [4:0] old_bit_cntr;
+	reg [4:0] address_bit_cntr;
+	reg [4:0] old_address_bit_cntr;
 	always @(posedge clk)
 	begin	
-		if(rst || (bit_cntr == 17)) bit_cntr <= 0;
-		else if(frame_start) bit_cntr <= bit_cntr + 1;
-		else old_bit_cntr <= bit_cntr;
+		if(rst || (address_bit_cntr == 17)) address_bit_cntr <= 0;
+		else if(frame_start) address_bit_cntr <= address_bit_cntr + 1;
+		else old_address_bit_cntr <= address_bit_cntr;
 	end
 	
 	always @(posedge clk)
 	begin
-		if(rst) check_addr <= 0;
-		else if(old_bit_cntr != bit_cntr)
+		if(rst) 
+		begin	
+			check_addr <= 0;
+			we_feedback <= 0;
+		end
+		else if(old_address_bit_cntr != address_bit_cntr)
 		begin
-			if((bit_cntr == 9) || (bit_cntr == 17)) 
+			if((address_bit_cntr == 9) || (address_bit_cntr == 17)) 
 			begin
-				sda <= 1;
+				sda_reg <= 1;
 			end
-			else if(bit_cntr == 8) we_feedback <= sda;
+			else if(address_bit_cntr == 8) we_feedback <= sda;
 			else
 			begin
 				check_addr <= {check_addr[14:1], sda};
@@ -116,12 +127,36 @@ module tb_top_in;
 		end
 	end
 	
+	assign sda = (((data_bit_cntr == 0) && (address_bit_cntr == 0)) || (address_bit_cntr == 8) || (data_bit_cntr == 8))? sda_reg : 1'bz;
+	
 	reg isEqual;
 	always @(posedge clk)
 	begin
 		if(rst) isEqual <= 0;
-		else if((bit_cntr == 16) && (check_addr[9:0] == control_adr[31:22])) isEqual <= 1;
+		else if((address_bit_cntr == 16) && (check_addr[9:0] == control_adr[31:22])) isEqual <= 1;
 	end
+	
+	reg [4:0] data_bit_cntr;
+	reg [4:0] old_data_bit_cntr;
+	always @(posedge clk)
+	begin	
+		if(rst || (data_bit_cntr == 8)) data_bit_cntr <= 0;
+		else if(address_bit_cntr == 17) data_bit_cntr <= data_bit_cntr + 1;
+		else old_data_bit_cntr <= data_bit_cntr;
+	end
+	
+	always @(posedge clk)
+	begin 
+		if(rst) ack_feedback <= 0;
+		else if(isEqual && we_feedback && (data_bit_cntr != old_data_bit_cntr))
+			if (data_bit_cntr == 8) 
+				begin
+					ack_feedback <= sda;
+				end
+			else  data = {data[30:1],0};
+	end
+	
+	assign sda = data[31];
       
 endmodule
 

@@ -32,7 +32,14 @@ module tb_top;
 	reg dat_rdy;
 	reg set_addressLength;
 	reg we;		//we == 0 -> write
-
+	
+	
+	// Outputs
+	wire scl;
+	
+	// Bidirs
+	wire sda;
+	
 	// Instantiate the Unit Under Test (UUT)
 	top uut (
 		.rst(rst), 
@@ -40,7 +47,9 @@ module tb_top;
 		.control_dat(control_dat),
 		.control_adr(control_adr),
 		.set_addressLength(set_addressLength),
-		.we(we)
+		.we(we),
+		.sda(sda),
+		.scl(scl)
 	);
 
 	initial begin

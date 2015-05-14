@@ -217,7 +217,7 @@ assign scl_oe = start ? 1'b1: 1'b0;
 assign sda_oe = start ? 1'b1: 1'b0;
 assign scl = (scl_oe)? scl_reg : 1'bz;
 
-assign sda = (sda_oe) ? sda_reg[55] : 1'bz;
+assign sda = 1;//(sda_oe) ? sda_reg[55] : 1'bz;
 
 assign scl_low = ((clk_counter == (BITRATE/2)) & (!scl_reg));
 assign scl_high = ((clk_counter == (BITRATE/2)) & ( scl_reg));
@@ -232,10 +232,10 @@ always @(posedge clk_i)begin
 		reg_dat_o[7:0] <= sda_reg[9:2];
 	end
 	else begin
-		reg_dat_o[31:24] <= sda_reg[45:38];
-		reg_dat_o[23:16] <= sda_reg[36:29];
-		reg_dat_o[15:8] <= sda_reg[27:20];
-		reg_dat_o[7:0] <= sda_reg[18:11];
+		reg_dat_o[31:24] <= sda_reg[36:29];
+		reg_dat_o[23:16] <= sda_reg[27:20];
+		reg_dat_o[15:8] <= sda_reg[18:11];
+		reg_dat_o[7:0] <= sda_reg[9:2];
 	end
 end
 
