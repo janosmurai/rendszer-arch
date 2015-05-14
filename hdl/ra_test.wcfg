@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Users/murai/Documents/vik_bme_msc/rendszerarchitekturak/hazi_feladat/rendszer-architekturak/tb_top_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="17" />
+   <wvobject fp_name="/tb_top/rst" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/control_dat" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">control_dat[31:0]</obj_property>
+      <obj_property name="ObjectShortName">control_dat[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/control_adr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">control_adr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">control_adr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/dat_rdy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dat_rdy</obj_property>
+      <obj_property name="ObjectShortName">dat_rdy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/set_addressLength" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">set_addressLength</obj_property>
+      <obj_property name="ObjectShortName">set_addressLength</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_m/addressLength_out" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">addressLength_out</obj_property>
+      <obj_property name="ObjectShortName">addressLength_out</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_m/adr_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">adr_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">adr_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_m/dat_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dat_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">dat_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_m/reg_adr_o" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">reg_adr_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">reg_adr_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_m/clk_i" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk_i</obj_property>
+      <obj_property name="ObjectShortName">clk_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_m/rst_i" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">rst_i</obj_property>
+      <obj_property name="ObjectShortName">rst_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/adr_i" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">adr_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">adr_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/selected" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">selected</obj_property>
+      <obj_property name="ObjectShortName">selected</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/start" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">start</obj_property>
+      <obj_property name="ObjectShortName">start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/cyc_i" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cyc_i</obj_property>
+      <obj_property name="ObjectShortName">cyc_i</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/cyc_old" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cyc_old</obj_property>
+      <obj_property name="ObjectShortName">cyc_old</obj_property>
+   </wvobject>
+</wave_config>

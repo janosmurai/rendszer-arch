@@ -31,32 +31,54 @@ module wishbone_master(
 	output sel_o,
 	output stb_o,
 	output cyc_o,
+	output addressLength_out,
 	
 	//master controlling signals
 	input [31:0] control_dat,
 	input [31:0] control_adr,
-	input dat_rdy
+	input dat_rdy,
+	input addressLength_in,
+	input we
     );
+	 
+reg [31:0]reg_adr_o;
+reg [31:0]reg_dat_o;
+reg reg_we_o;	 
+reg reg_sel_o;
+reg reg_sys_o;
+reg reg_cyc_o;
+reg addressLength;
 
-always @(posedge clk)
+always @(posedge clk_i)
 begin
-	if(rst_i || ack_i)
+	if(rst_i)// || ack_i)
 	begin
-		adr_o <= 0;
-		dat_o <= 0;
-		we_o <= 0;
-		sel_o <= 0;
-		sys_o <= 0;
+		reg_adr_o <= 0;
+		reg_dat_o <= 0;
+		reg_we_o <= 0;
+		reg_sel_o <= 0;
+		reg_sys_o <= 0;
+		reg_cyc_o <= 0;
+		addressLength <= 0;
 	end
-	else if(dat_rdy)
+	else //if(dat_rdy)
 	begin
-		adr_o <= control_adr;
-		dat_o <= control_dat;
-		we_o <= 1;					//write
-		sel_o <= 1;
-		cyc_o <= 1;
+		reg_adr_o <= control_adr;
+		reg_dat_o <= control_dat;
+		reg_we_o <= we;					//write
+		reg_sel_o <= 1;
+		reg_cyc_o <= 1;
+		addressLength <= addressLength_in;
 	end
 end
+
+assign adr_o = reg_adr_o;
+assign dat_o = reg_dat_o;
+assign we_o = reg_we_o;	 
+assign sel_o = reg_sel_o;
+assign sys_o = reg_sys_o;
+assign cyc_o = reg_cyc_o;
+assign addressLength_out = addressLength;
 		
 
 endmodule

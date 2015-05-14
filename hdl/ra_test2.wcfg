@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Users/murai/Documents/vik_bme_msc/rendszerarchitekturak/hazi_feladat/rendszer-architekturak/tb_top_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_top" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="14" />
+   <wvobject fp_name="/tb_top/uut/wb_s/clk_counter" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">clk_counter[7:0]</obj_property>
+      <obj_property name="ObjectShortName">clk_counter[7:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/scl_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">scl_en</obj_property>
+      <obj_property name="ObjectShortName">scl_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/scl_reg" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">scl_reg</obj_property>
+      <obj_property name="ObjectShortName">scl_reg</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/addressLength" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">addressLength</obj_property>
+      <obj_property name="ObjectShortName">addressLength</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/sda_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">sda_reg[55:0]</obj_property>
+      <obj_property name="ObjectShortName">sda_reg[55:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/sda_oe" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sda_oe</obj_property>
+      <obj_property name="ObjectShortName">sda_oe</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/sda" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sda</obj_property>
+      <obj_property name="ObjectShortName">sda</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/scl_en" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">scl_en</obj_property>
+      <obj_property name="ObjectShortName">scl_en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/scl" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">scl</obj_property>
+      <obj_property name="ObjectShortName">scl</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/bit_counter" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">bit_counter[5:0]</obj_property>
+      <obj_property name="ObjectShortName">bit_counter[5:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/start_condition" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">start_condition</obj_property>
+      <obj_property name="ObjectShortName">start_condition</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/stop_condition" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">stop_condition</obj_property>
+      <obj_property name="ObjectShortName">stop_condition</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/scl_high" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">scl_high</obj_property>
+      <obj_property name="ObjectShortName">scl_high</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_top/uut/wb_s/scl_low" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">scl_low</obj_property>
+      <obj_property name="ObjectShortName">scl_low</obj_property>
+   </wvobject>
+</wave_config>
