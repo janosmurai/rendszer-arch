@@ -1,27 +1,5 @@
 `timescale 1ns / 1ps
 
-////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer:
-//
-// Create Date:   22:43:42 05/13/2015
-// Design Name:   top
-// Module Name:   C:/Users/murai/Documents/vik_bme_msc/rendszerarchitekturak/hazi_feladat/rendszer-architekturak/tb_top.v
-// Project Name:  rendszer-architekturak
-// Target Device:  
-// Tool versions:  
-// Description: 
-//
-// Verilog Test Fixture created by ISE for module: top
-//
-// Dependencies:
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-////////////////////////////////////////////////////////////////////////////////
-
 module tb_top;
 
 	// Inputs

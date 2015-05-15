@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    21:10:24 04/11/2015 
-// Design Name: 
-// Module Name:    wishbone 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module wishbone_master(
 	//wb signals
 	input rst_i,
@@ -51,7 +33,7 @@ reg addressLength;
 
 always @(posedge clk_i)
 begin
-	if(rst_i)// || ack_i)
+	if(rst_i || ack_i)
 	begin
 		reg_adr_o <= 0;
 		reg_dat_o <= 0;
@@ -61,11 +43,11 @@ begin
 		reg_cyc_o <= 0;
 		addressLength <= 0;
 	end
-	else //if(dat_rdy)
+	else if(dat_rdy)
 	begin
 		reg_adr_o <= control_adr;
 		reg_dat_o <= control_dat;
-		reg_we_o <= we;					//write
+		reg_we_o <= we;				
 		reg_sel_o <= 1;
 		reg_cyc_o <= 1;
 		addressLength <= addressLength_in;

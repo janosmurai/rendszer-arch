@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    21:22:34 04/11/2015 
-// Design Name: 
-// Module Name:    wishbone_slave 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module wishbone_slave #(
 	parameter slave_addr = 32'h00000000)
 	(
@@ -29,21 +11,20 @@ module wishbone_slave #(
 	input sel_i,
 	input stb_i,
 	input cyc_i,
-	//input clk_en,	 			// User defined
 	input addressLength, 	// User defined. If (addressLength == 1) -> 10bbit
 	
 	output [31:0] dat_o,
 	output ack_o,   
 	
-	//interfész az i2c felé
+	//interface to the periphery
 	output 	scl,
 	inout		sda
 	
 	);
 	
-reg selected;
-reg ack;
-wire sda_oe;		// true in write cycle, false in read cycle
+reg selected;	// true if the slave_addr and the adr_i are equal
+reg ack;			// acknowledge signal to master
+wire sda_oe;	// true in write cycle, false in read cycle
 reg scl_reg;	// Contains the value of the SCL
 wire scl_en;	// Used for setting the SCL's frequency
 wire scl_oe;	// indicates an ongoing cycle
@@ -60,7 +41,6 @@ begin
 	else if(adr_i == slave_addr) selected <= 1;
 	else selected <= 0;
 end
-
 
 // Start cycle 
 reg cyc_old;
@@ -93,8 +73,9 @@ always @(posedge clk_i)
 	end
 end
 
-assign scl_en = (clk_counter == BITRATE);    //changeable based on bitRate
+assign scl_en = (clk_counter == BITRATE);  
 
+// Create scl signal
 always @(posedge clk_i) begin
 	if(rst_i) begin
 		scl_reg <= 0;
@@ -105,24 +86,26 @@ always @(posedge clk_i) begin
 end
 		
 // Fill up the shift register
-// 10bit adress is separated
+// 10bit address is separated
 reg [55:0] sda_reg;
 reg start_condition;
 reg stop_condition;
 reg[5:0] bit_counter;
 always @(posedge clk_i) begin
 	if(rst_i)begin
-		sda_reg = {56{1'b1}};
+		sda_reg <= {56{1'b1}};
 		bit_counter <= 0;
+		start_condition <= 0;
+
 	end
 	else if ((cyc_old == 0) && (cyc_i == 1)) begin
 		if(addressLength)begin
-				sda_reg[55] <= 0;			//start sign
-				sda_reg[54:50] <= 5'b11110;	//MSB2 bit address
+				sda_reg[55] <= 0;							// start sign
+				sda_reg[54:50] <= 5'b11110;			// Higher 2 bits of the address
 				sda_reg[49:48] <= adr_i[31:30];
 				sda_reg[47] <= we_i;
-				sda_reg[46] <= 1'bz;			// ACK from the slave
-				sda_reg[45:38] <= adr_i[29:22];	//8 bit address
+				sda_reg[46] <= 1'bz;						// ACK from the slave
+				sda_reg[45:38] <= adr_i[29:22];		// Lower 8 bits of the address
 				sda_reg[37] <= 1'bz;
 				if (!we_i)begin
 					sda_reg[36:29] <= dat_i[31:24];
@@ -144,11 +127,11 @@ always @(posedge clk_i) begin
 					sda_reg[9:2] <= {8{1'bz}};
 					sda_reg[1] <= 1'b0;
 				end
-				sda_reg[0] <= 1'b1;	//stop condition
+				sda_reg[0] <= 1'b1;						//stop condition
 			end
 			else begin
-				sda_reg[55] <= 0;			//start sign
-				sda_reg[54:48] <= adr_i[31:25];	//7 bit address
+				sda_reg[55] <= 0;							//start sign
+				sda_reg[54:48] <= adr_i[31:25];		//7 bit address
 				sda_reg[47] <= we_i;
 				sda_reg[46] <= 1'bz;
 				if (!we_i)begin
@@ -171,17 +154,18 @@ always @(posedge clk_i) begin
 					sda_reg[18:11] <= {8{1'bz}};
 					sda_reg[10] <= 1'b0;
 				end
-				sda_reg[9] <= 1'b1;	//stop condition
+				sda_reg[9] <= 1'b1;						//stop condition
+				start_condition <= 1'b1;
 			end
 	end
 	if (start && start_condition && scl_high)begin	//send out start condition
-		sda_reg = {sda_reg[54:0], sda_reg[55]};
+		sda_reg <= {sda_reg[54:0], sda_reg[55]};
 		start_condition <= 1'b0;
 		bit_counter <= 1'b0;
 	end
 	
-	if (start && stop_condition && scl_high)begin
-		sda_reg = {sda_reg[54:0], sda_reg[55]};
+	if (start && stop_condition && scl_high)begin	//send out stop condition
+		sda_reg <= {sda_reg[54:0], sda_reg[55]};
 		bit_counter <= 1'b0;
 	end
 	
@@ -195,7 +179,7 @@ end
 always @(posedge clk_i)
 begin
 	if(rst_i) stop_condition <= 0;
-	else if(addressLength)		// 10bit address 
+	else if(addressLength)									// 10bit address 
 		if(bit_counter == 56)
 			stop_condition <= 1;
 		else 
@@ -207,26 +191,22 @@ begin
 			stop_condition <= 0;
 end
 
-always @(posedge clk_i)begin
-	if(rst_i) start_condition <= 0;
-	else if((cyc_old == 0) && (cyc_i == 1)) start_condition <= 1'b1;
-	else start_condition <= 1'b0;
-end
 
 assign scl_oe = start ? 1'b1: 1'b0;
 assign sda_oe = start ? 1'b1: 1'b0;
 assign scl = (scl_oe)? scl_reg : 1'bz;
 
-assign sda = 1;//(sda_oe) ? sda_reg[55] : 1'bz;
+assign sda = (sda_oe) ? sda_reg[55] : 1'bz;
 
 assign scl_low = ((clk_counter == (BITRATE/2)) & (!scl_reg));
 assign scl_high = ((clk_counter == (BITRATE/2)) & ( scl_reg));
 
+// Fill out dat_o register with data from the periphery
 reg [31:0]reg_dat_o;
 always @(posedge clk_i)begin
 	if(start && stop_condition && we_i)
 	if (addressLength)begin
-		reg_dat_o[31:24] <= sda_reg[36:29];		//itt a bemenetnek akarunk értéket adni??? wut??
+		reg_dat_o[31:24] <= sda_reg[36:29];	
 		reg_dat_o[23:16] <= sda_reg[27:20];
 		reg_dat_o[15:8] <= sda_reg[18:11];
 		reg_dat_o[7:0] <= sda_reg[9:2];
@@ -241,4 +221,14 @@ end
 
 assign dat_o = reg_dat_o;
 
+// Set the acknowledge signal 
+reg ack_fb;
+always @(posedge clk_i)
+begin
+	if(rst_i) ack_fb <= 0;
+	else if(stop_condition) ack_fb <= 1;
+	else ack_fb <= 0;
+end
+
+assign ack_o = ack_fb;
 endmodule

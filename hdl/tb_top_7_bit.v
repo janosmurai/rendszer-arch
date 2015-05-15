@@ -1,6 +1,5 @@
 `timescale 1ns / 1ps
 
-
 module tb_top_in;
 
 	// Inputs
@@ -19,7 +18,7 @@ module tb_top_in;
 	wire sda;
 	
 	// Data reg
-	reg [54:0]sda_reg_tb;
+	reg [45:0]sda_reg_tb;
 	reg [31:0]data = {31{1'b1}};
 
 	// Instantiate the Unit Under Test (UUT)
@@ -86,11 +85,9 @@ module tb_top_in;
 	begin
 		if(rst)
 		begin
-			sda_reg_tb[54] <= 1'bz;
-			sda_reg_tb[53:46] <= {8{1'bz}};
-			sda_reg_tb[45] <= 1'b1;
+			sda_reg_tb[45] <= 1'bz;
 			sda_reg_tb[44:37] <= {8{1'bz}};
-			sda_reg_tb[36] = 1'b1;
+			sda_reg_tb[36] <= 1'b1;
 			sda_reg_tb[35:28] <= data[31:24];
 			sda_reg_tb[27] <= 1'bz;
 			sda_reg_tb[26:19] <= data[23:16];

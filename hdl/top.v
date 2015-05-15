@@ -1,23 +1,5 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date:    21:09:40 04/11/2015 
-// Design Name: 
-// Module Name:    top 
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
-// Description: 
-//
-// Dependencies: 
-//
-// Revision: 
-// Revision 0.01 - File Created
-// Additional Comments: 
-//
-//////////////////////////////////////////////////////////////////////////////////
+
 module top(
 	input rst,
 	input clk,
@@ -40,7 +22,7 @@ wire wb_m2s_cyc;
 
 wire wb_s2m_dat;
 wire wb_s2m_ack;
-wire addressLength;
+wire addressLength;			//User defined
 
 wishbone_master wb_m(
 	.rst_i(rst),
@@ -80,6 +62,8 @@ wishbone_slave #(
 	
 	.dat_o(wb_s2m_dat),
 	.ack_o(wb_s2m_ack),
+	
+	// Periphery signals
 	.sda(sda),
 	.scl(scl)
 );
